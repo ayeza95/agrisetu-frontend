@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Registration - AgriSetu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body class="min-h-screen py-8 px-4 bg-gradient-to-br from-[#f0fdf4] to-[#e0f2fe] cursor-default">
+    <div class="max-w-4xl mx-auto">
+
+        <div class="text-center mb-8">
+            <a href="/" class="inline-flex items-center gap-2 mb-4">
+                <i class="mt-2 h-8 w-8 text-[#4a9a14] fas fa-seedling text-2xl"></i>
+                <h1 class="text-2xl font-bold text-[#4a9a14]">AgriSetu</h1>
+            </a>
+            <h2 class="text-3xl font-bold text-gray-900">Farmer Registration</h2>
+            <p class="text-gray-600 mt-2">Join our platform and connect directly with buyers</p>
+        </div> 
+
+        <div class="mb-8">
+            <div class="flex items-center justify-between mb-2">
+                <span id="currentStep" class="text-sm font-medium text-gray-600">Step <span>1</span> of 4</span>
+                <span id="percentComplete" class="text-sm font-medium text-gray-600"><span>25</span>% Complete</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div id="progressFill" class="bg-green-600 h-2 rounded-full transition-all duration-300" style="width: 25%"></div>
+            </div>
+        </div>
+        
+        <form id="registrationForm">
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6">
+                <div class="p-6 border-b border-gray-200">
+                    <h3 class="text-xl font-semibold flex items-center gap-2">
+                        <i class="fas fa-user h-5 w-5 cursor-pointer"></i>Personal Information
+                    </h3>
+                    <p class="text-gray-600 mt-1">Please provide your personal details</p>
+                </div>
+
+                 <div class="p-6 space-y-6">
+                    
+                    <div id="step-1" class="block">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label for="fullName" class="block text-sm font-medium text-gray-700">Full Name *</label>
+                                <input id="fullName" name="fullName" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer" placeholder="Enter your full name" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="fatherName" class="block text-sm font-medium text-gray-700">Father's Name *</label>
+                                <input id="fatherName" name="fatherName" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer" placeholder="Enter father's name" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="dateOfBirth" class="block text-sm font-medium text-gray-700">Date Of Birth *</label>
+                                <input id="dateOfBirth" name="dateOfBirth" type="date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="gender" class="block text-sm font-medium text-gray-700">Gender *</label>
+                                <select id="gender" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" required>
+                                    <option value="">Select gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number *</label>
+                                <input id="phone" name="phone" type="tel" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" placeholder="Enter 10-digit phone number" required maxlength="10" />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="alternatePhone" class="block text-sm font-medium text-gray-700">Alternate Phone</label>
+                                <input id="alternatePhone" name="alternatePhone" type="tel" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer" placeholder="Enter 10-digit phone number" maxlength="10" />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                                <input id="email" name="email" type="email" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" placeholder="Enter email address" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="aadharNumber" class="block text-sm font-medium text-gray-700">Aadhar Number *</label>
+                                <input id="aadharNumber" name="aadharNumber" type="text" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer" placeholder="Enter 12-digit Aadhar number" required maxlength="12" />
+                            </div>
+                            <div class="space-y-2 md:col-span-2">
+                                <label for="password" class="block text-sm font-medium text-gray-700">Create Password *</label>
+                                <input id="password" name="password" type="password" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer" placeholder="Enter a secure password" required minlength="6" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="step-2" class="hidden">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label for="farmName" class="block text-sm font-medium text-gray-700">Farm Name *</label>
+                                <input id="farmName" name="farmName" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer" placeholder="Enter farm name" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="landSize" class="block text-sm font-medium text-gray-700">Land Size (in acres) *</label>
+                                <input id="landSize" name="landSize" type="number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer" placeholder="Enter land size" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="village" class="block text-sm font-medium text-gray-700">Village *</label>
+                                <input id="village" name="village" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 cursor-pointer" placeholder="Enter village name" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="district" class="block text-sm font-medium text-gray-700">District *</label>
+                                <input id="district" name="district" type="text" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" placeholder="Enter district name" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="state" class="block text-sm font-medium text-gray-700">State *</label>
+                                <select id="state" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" required>
+                                    <option value="">Select state</option>
+                                    <option value="andhraPradesh">Andhra Pradesh</option>
+                                    <option value="bihar">Bihar</option>
+                                    <option value="gujarat">Gujarat</option>
+                                    <option value="haryana">Haryana</option>
+                                    <option value="karnataka">Karnataka</option>
+                                    <option value="madhyaPradesh">Madhya Pradesh</option>
+                                    <option value="maharashtra">Maharashtra</option>
+                                    <option value="punjab">Punjab</option>
+                                    <option value="rajasthan">Rajasthan</option>
+                                    <option value="tamilNadu">Tamil Nadu</option>
+                                    <option value="uttarPradesh">Uttar Pradesh</option>
+                                    <option value="westBengal">West Bengal</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="pincode" class="block text-sm font-medium text-gray-700">Pincode *</label>
+                                <input id="pincode" name="pincode" type="text" class="w-full px-3 py-2 border border-gray-300 focus:outline-none rounded-md focus:ring-2 focus:ring-green-500 cursor-pointer" placeholder="Enter pincode" required />
+                            </div>
+                            <div class="space-y-2">
+                                <label for="landType" class="block text-sm font-medium text-gray-700">Land Type *</label>
+                                <select id="landType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" required>
+                                    <option value="">Select land type</option>
+                                    <option value="irrigated">Irrigated</option>
+                                    <option value="rainfed">Rainfed</option>
+                                    <option value="mixed">Mixed</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label for="soilType" class="block text-sm font-medium text-gray-700">Soil Type *</label>
+                                <select id="soilType" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" required>
+                                    <option value="">Select soil type</option>
+                                    <option value="alluvial">Alluvial</option>
+                                    <option value="black">Black</option>
+                                    <option value="red">Red</option>
+                                    <option value="laterite">Laterite</option>
+                                    <option value="sandy">Sandy</option>
+                                    <option value="clay">Clay</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="step-3" class="hidden">
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-base font-semibold text-gray-700">Primary Crops (Select main crops you grow) *</p>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="primaryWheat" class="rounded text-green-600 focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer"/>
+                                        <label for="primaryWheat" class="text-sm">Wheat</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="primaryRice" class="rounded text-green-600 focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer">
+                                        <label for="primaryRice" class="text-sm">Rice</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="primaryCorn" class="rounded text-green-600 focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer">
+                                        <label for="primaryCorn" class="text-sm">Corn</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="primaryCotton" class="rounded text-green-600 focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer">
+                                        <label for="primaryCotton" class="text-sm">Cotton</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="primarySugarcane" class="rounded text-green-600 focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer">
+                                        <label for="primarySugarcane" class="text-sm">Sugarcane</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="primarySoybean" class="rounded text-green-600 focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer">
+                                        <label for="primarySoybean" class="text-sm">Soybean</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="primaryPulses" class="rounded text-green-600 focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer">
+                                        <label for="primaryPulses" class="text-sm">Pulses</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="primaryVegetables" class="rounded text-green-600 focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer">
+                                        <label for="primaryVegetables" class="text-sm">Vegetables</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="text-base font-semibold text-gray-700">Secondary Crops (Optional)</p>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="secondaryWheat" class="rounded text-green-600 focus:ring-2 focus:outline-none  focus:ring-green-500 cursor-pointer">
+                                        <label for="secondaryWheat" class="text-sm">Wheat</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="secondaryRice" class="rounded text-green-600 focus:ring-2 focus:outline-none  focus:ring-green-500 cursor-pointer" >
+                                        <label for="secondaryRice" class="text-sm">Rice</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="secondaryCorn" class="rounded text-green-600 focus:ring-2 focus:outline-none  focus:ring-green-500 cursor-pointer" >
+                                        <label for="secondaryCorn" class="text-sm">Corn</label>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <input type="checkbox" id="secondaryCotton" class="rounded text-green-600 focus:ring-2 focus:outline-none  focus:ring-green-500 cursor-pointer" >
+                                        <label for="secondaryCotton" class="text-sm">Cotton</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label for="farmingExperience" class="block text-sm font-medium text-gray-700">Farming Experience (years) *</label>
+                                    <input id="farmingExperience" name="farmingExperience" type="number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" placeholder="Enter years of experience" required>
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="averageYield" class="block text-sm font-medium text-gray-700">Average Yield (tons/acre) *</label>
+                                    <input id="averageYield" name="averageYield" type="number" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" placeholder="Enter average yield" required>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="organicCertified" class="rounded text-green-600 focus:ring-2 focus:outline-none focus:ring-green-500 cursor-pointer" required>
+                                <label for="organicCertified" class="text-sm text-gray-700">I have organic certification for my crops</label>
+                            </div>
+                        </div>
+                     </div>
+
+                     <div id="step-4" class="hidden">
+                        <div class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Profile Photo *</label>
+                                    <div id="profilePhotoWrapper" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-green-500 transition-colors">
+                                        <i class="fas fa-camera text-gray-400 text-2xl mx-auto mb-2"></i>
+                                        <p class="text-sm text-gray-600">Click to upload profile photo</p>
+                                        <input type="file" id="profilePhoto" name="profilePhoto" class="hidden focus:outline-none" accept="image/*" required>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Aadhar Card *</label>
+                                    <div id="aadharCardWrapper" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-green-500 transition-colors">
+                                        <i class="fas fa-upload text-gray-400 text-2xl mx-auto mb-2"></i>
+                                        <p class="text-sm text-gray-600">Upload Aadhar (front & back)</p>
+                                        <input type="file" id="aadharCard" name="aadharCard" class="hidden focus:outline-none" accept="image/*,application/pdf" required>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Land Documents *</label>
+                                    <div id="landDocumentsWrapper" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-green-500 transition-colors">
+                                        <i class="fas fa-upload text-gray-400 text-2xl mx-auto mb-2"></i>
+                                        <p class="text-sm text-gray-600">Upload land ownership documents</p>
+                                        <input type="file" id="landDocuments" name="landDocuments" class="hidden focus:outline-none" accept="image/*,application/pdf" required>
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-sm font-medium text-gray-700">Bank Passbook *</label>
+                                    <div id="bankPassbookWrapper" class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-green-500 transition-colors">
+                                        <i class="fas fa-upload text-gray-400 text-2xl mx-auto mb-2"></i>
+                                        <p class="text-sm text-gray-600">Upload passbook front page</p>
+                                        <input type="file" id="bankPassbook" name="bankPassbook" class="hidden focus:outline-none" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between pt-6 border-t">
+                        <button id="prevBtn" type="button" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors cursor-pointer" disabled>
+                            Previous
+                        </button>
+                        
+                        <button id="nextBtn" type="button" class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors cursor-pointer">
+                            Next Step
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="mt-8 text-center">
+            <p class="text-sm text-gray-600">
+                Need help? <button onclick="showContactPage()" class="text-green-600 cursor-pointer ml-1">Contact Support</button>
+            </p>
+        </div>
+    </div>
+    
+    <div id="contactPage" class="hidden fixed inset-0 bg-[#343a40] bg-opacity-50 z-50 flex items-center justify-center p-4">
+        </div>
+
+    <script src="script.js"></script>
+    <script src="farmer-registration.js"></script>
+</body>
+</html>

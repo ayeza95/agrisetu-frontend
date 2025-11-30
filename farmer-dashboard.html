@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard - AgriSetu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- <link rel="stylesheet" href="output.css"> -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navigation -->
+    <nav class="bg-[#2d5016] shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-seedling text-[#4ade80] text-2xl mr-3"></i>
+                    <span class="text-white text-xl font-bold">AgriSetu</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-white hover:text-[#4ade80] transition duration-300">Home</a>
+                    <span id="userWelcome" class="text-white">Welcome, Farmer</span>
+                    <button onclick="logout()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-tractor text-[#2d5016] mr-3"></i>Seller Dashboard
+                </h1>
+                <p class="text-gray-600 mt-2">Manage your crops and orders</p>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                <button onclick="showSection('crops', event)" class="nav-btn bg-[#2d5016] text-white px-4 py-2 rounded-lg hover:bg-[#166534] hover:text-white transition duration-300 cursor-pointer">My Crops</button>
+                <button onclick="showSection('orders', event)" class="nav-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300 cursor-pointer">Orders</button>
+                <button onclick="showSection('profile', event)" class="nav-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition duration-300 cursor-pointer">Profile</button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gradient-to-r from-green-400 to-green-600 rounded-xl p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-green-100">Total Crops</p>
+                        <p id="totalCrops" class="text-3xl font-bold">0</p>
+                    </div>
+                    <i class="fas fa-seedling text-4xl text-green-200"></i>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-blue-400 to-blue-600 rounded-xl p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-blue-100">Total Orders</p>
+                        <p id="totalOrders" class="text-3xl font-bold">0</p>
+                    </div>
+                    <i class="fas fa-shopping-cart text-4xl text-blue-200"></i>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-xl p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-yellow-100">Total Earnings</p>
+                        <p id="totalEarnings" class="text-3xl font-bold">₹0</p>
+                    </div>
+                    <i class="fas fa-coins text-4xl text-yellow-200"></i>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-purple-400 to-purple-600 rounded-xl p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-purple-100">Pending Orders</p>
+                        <p id="pendingOrders" class="text-3xl font-bold">0</p>
+                    </div>
+                    <i class="fas fa-clock text-4xl text-purple-200"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crops Section -->
+        <div id="cropsSection" class="bg-[#dee2e6] rounded-2xl shadow-lg p-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">My Crops</h2>
+                <button onclick="showAddCropPage()" class="bg-[#2d5016] text-white rounded-lg hover:bg-[#166534] transition duration-300 px-3 py-2 flex items-center mt-4 md:mt-0">
+                    <i class="fas fa-plus mr-2"></i>
+                    Add New Crop
+                </button>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Image</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Crop Name</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Category</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Quantity (kg)</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Price (per kg)</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Availability</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cropsTableBody">
+                        <!-- Crops will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div id="ordersSection" class="bg-[#dee2e6] rounded-2xl shadow-lg p-6 hidden">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Orders Received</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                        <tr class="border-b border-gray-200 text-left">
+                            <th class="py-3 px-4 font-semibold text-gray-700">Order ID</th>
+                            <th class="py-3 px-4 font-semibold text-gray-700">Crop Details</th>
+                            <th class="py-3 px-4 font-semibold text-gray-700">Buyer Info</th>
+                            <th class="py-3 px-4 font-semibold text-gray-700">Delivery Address & Instructions</th>
+                            <th class="py-3 px-4 font-semibold text-gray-700">Total Amount</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Order Date</th>
+                            <th class="text-center py-3 px-4 font-semibold text-gray-700">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody">
+                        <!-- Orders will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Profile Section -->
+        <div id="profileSection" class="bg-[#dee2e6] rounded-2xl shadow-lg p-6 hidden">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Profile Information</h2>
+            <form id="profileForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="profileName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-[#4ade80] focus:border-transparent"> 
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                    <input type="email" id="profileEmail" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                    <input type="tel" id="profilePhone" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-[#4ade80] focus:border-transparent" maxlength="10" pattern="[0-9]{10}" title="Please enter a 10-digit phone number.">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Farm Location</label>
+                    <input type="text" id="profileLocation" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Land Size (acres)</label>
+                    <input type="number" id="profileLandSize" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Crop Types</label>
+                    <input type="text" id="profileCropTypes" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="bg-[#2d5016] text-white px-8 py-3 rounded-lg hover:bg-[#166534] transition duration-300 font-semibold">
+                        Update Profile
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Crop Page -->
+    <div id="addCropPage" class="fixed inset-0 bg-[#343a40] bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-2xl max-h-screen overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Add New Crop</h2>
+                <button onclick="closePage('addCropPage')" class="text-gray-400 hover:text-gray-600 cursor-pointer">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="addCropForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Crop Name</label>
+                    <input type="text" id="cropName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <select id="cropCategory" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                        <option value="">Select Category</option>
+                        <option value="vegetables">Vegetables</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="grains">Grains</option>
+                        <option value="spices">Spices</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Quantity (kg)</label>
+                    <input type="number" id="cropQuantity" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Price per kg (₹)</label>
+                    <input type="number" id="cropPrice" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Harvest Date</label>
+                    <input type="date" id="cropHarvestDate" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Quality Grade</label>
+                    <select id="cropQuality" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                        <option value="">Select Quality</option>
+                        <option value="Premium">Premium</option>
+                        <option value="Grade A">Grade A</option>
+                        <option value="Grade B">Grade B</option>
+                        <option value="Standard">Standard</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="cropDescription" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent"></textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Crop Image</label>
+                    <input type="file" id="cropImage" accept="image/*" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="w-full bg-[#2d5016] text-white py-3 rounded-lg font-semibold hover:bg-[#166534] transition duration-300">
+                        Add Crop
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Crop Modal -->
+    <div id="editCropModal" class="fixed inset-0 bg-[#343a40] bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-2xl max-h-screen overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-900">Edit Crop</h2>
+                <button onclick="closeModal('editCropModal')" class="text-gray-400 hover:text-gray-600 cursor-pointer">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="editCropForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <input type="hidden" id="editCropId">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Crop Name</label>
+                    <input type="text" id="editCropName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                    <select id="editCropCategory" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                        <option value="vegetables">Vegetables</option>
+                        <option value="fruits">Fruits</option>
+                        <option value="grains">Grains</option>
+                        <option value="spices">Spices</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Quantity (kg)</label>
+                    <input type="number" id="editCropQuantity" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Price per kg (₹)</label>
+                    <input type="number" id="editCropPrice" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                    <textarea id="editCropDescription" rows="3" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent"></textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="w-full bg-[#2d5016] text-white py-3 rounded-lg font-semibold hover:bg-[#166534] transition duration-300">Update Crop</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="farmer-dashboard.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AgriSetu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-[#e9ecef]">
+
+    <nav class="bg-[#2d5016] shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-seedling text-[#4ade80] text-2xl mr-3"></i>
+                    <span class="text-white text-xl font-bold">AgriSetu</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-white hover:text-[#4ade80] transition duration-300">Home</a>
+                    <span id="userWelcome" class="text-white font-semibold">Welcome, Admin</span>
+                    <button onclick="logout()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 font-semibold cursor-pointer">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 flex items-center">
+                    <i class="fas fa-cogs text-[#2d5016] mr-3"></i>
+                    Admin Dashboard
+                </h1>
+                <p class="text-gray-600 mt-2">Manage farmers, crops, and monitor transactions</p>
+            </div>
+            <div class="flex flex-wrap gap-2 mt-4 md:mt-0">
+                <button onclick="showSection('overview', event)" class="nav-btn bg-[#2d5016] text-white px-4 py-2 rounded-lg hover:bg-[#166534] hover:text-white transition duration-300 cursor-pointer">Overview</button>
+                <button onclick="showSection('farmers', event)" class="nav-btn bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-300 cursor-pointer">Farmers</button>
+                <button onclick="showSection('crops', event)" class="nav-btn bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-300 cursor-pointer">Crops</button>
+                <button onclick="showSection('orders', event)" class="nav-btn bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-300 cursor-pointer">Orders</button>
+                <button onclick="showSection('users', event)" class="nav-btn bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition duration-300 cursor-pointer">Users</button>
+            </div>
+        </div>
+
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-gradient-to-r from-green-500 to-green-600 rounded-xl p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-green-100">Total Farmers</p>
+                        <p id="totalFarmers" class="text-3xl font-bold">0</p>
+                    </div>
+                        <i class="fas fa-users text-4xl text-green-200"></i>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-blue-100">Total Buyers</p>
+                        <p id="totalBuyers" class="text-3xl font-bold">0</p>
+                    </div>
+                        <i class="fas fa-shopping-cart text-4xl text-blue-200"></i>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-xl p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-yellow-100">Total Crops</p>
+                        <p id="totalCrops" class="text-3xl font-bold">0</p>
+                    </div>
+                    <i class="fas fa-seedling text-4xl text-yellow-200"></i>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-purple-500 to-purple-600 rounded-xl p-6 text-white">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-purple-100">Total Orders</p>
+                        <p id="totalOrders" class="text-3xl font-bold">0</p>
+                    </div>
+                    <i class="fas fa-clipboard-list text-4xl text-purple-200"></i>
+                </div>
+            </div>
+        </div>
+
+        <div id="overviewSection" class="space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Recent Activity</h3>
+                    <div id="recentActivity" class="space-y-3">
+                        <p class="text-center text-gray-500">Loading activity...</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Pending Approvals</h3>
+                    <div id="pendingApprovals" class="space-y-3">
+                        <p class="text-center text-gray-500">Loading approvals...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="farmersSection" class="bg-[#dee2e6] rounded-2xl shadow-lg p-6 hidden">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Farmer Management</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Name</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Phone</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Location</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Land Size</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Verification</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="farmersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+         <div id="cropsSection" class="bg-[#dee2e6] rounded-2xl shadow-lg p-6 hidden">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Crop Management</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Image</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Name</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Farmer</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Category</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Quantity</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Price</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cropsTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="ordersSection" class="bg-[#dee2e6] rounded-2xl shadow-lg p-6 hidden">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Order Management</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Order ID</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Buyer</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Farmer</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Crop</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Quantity</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Amount</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="usersSection" class="bg-[#dee2e6] rounded-2xl shadow-lg p-6 hidden">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">User Management</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full bg-white rounded-lg overflow-hidden">
+                    <thead class="bg-gray-100">
+                        <tr class="border-b border-gray-200">
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Name</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Email</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Role</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Status</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Joined</th>
+                            <th class="text-left py-3 px-4 font-semibold text-gray-700">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-dashboard.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

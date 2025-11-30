@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - AgriSetu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navigation -->
+    <nav class="bg-[#2d5016] shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-seedling text-[#4ade80] text-2xl mr-3"></i>
+                    <span class="text-white text-xl font-bold">AgriSetu</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="index.html" class="text-white hover:text-[#4ade80] transition duration-300">Home</a>
+                    <span id="userWelcome" class="text-white">Welcome, Buyer</span>
+                    <button onclick="logout()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Payment Section -->
+    <div class="max-w-4xl mx-auto p-8 bg-white rounded-2xl shadow-lg mt-10">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">Payment Details</h2>
+
+        <!-- Order Summary -->
+        <div id="orderSummary" class="mb-6 p-4 bg-gray-50 rounded-lg">
+            <!-- Order details will be populated here -->
+        </div>
+
+        <!-- Payment Options -->
+        <div id="paymentOptionsContainer" class="space-y-4">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Pay with QR Code</h3>
+                <div class="bg-gray-100 p-4 rounded-lg flex items-center justify-center">
+                    <!-- Dummy QR Code -->
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=DummyPaymentData" alt="QR Code" class="w-36 h-36">
+                </div>
+                <p class="text-sm text-gray-600 mt-2 text-center">Scan the QR code to complete your payment</p>
+                <div class="text-center mt-4">
+                    <button id="payButton" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition duration-300">Simulate Payment</button>
+                </div>
+            </div>
+
+            <!-- <div id="codOption">
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Cash on Delivery</h3>
+                <p class="text-sm text-gray-600">Pay when you receive your order</p>
+                <button id="codButton" class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition duration-300">Pay with COD</button>
+            </div> -->
+        </div>
+
+        <!-- Payment Successful Message -->
+        <div id="paymentSuccess" class="hidden text-center mt-8">
+            <i class="fas fa-check-circle text-5xl text-green-600 mb-4"></i>
+            <h3 class="text-2xl font-bold text-green-600 mb-2">Payment Successful!</h3>
+            <p id="successDetails" class="text-gray-600">Your order has been placed and is being processed.</p>
+            <a href="buyer-dashboard.html" class="inline-block mt-4 bg-[#2d5016] text-white px-6 py-3 rounded-lg hover:bg-[#166534] transition duration-300">
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const paymentContainer = document.querySelector('.max-w-4xl');
+            const orderSummary = document.getElementById('orderSummary');
+            const paymentSuccess = document.getElementById('paymentSuccess');
+            const payButton = document.getElementById('payButton');
+            // const codOption = document.getElementById('codOption');
+            // const codButton = document.getElementById('codButton');
+            const paymentOptionsContainer = document.getElementById('paymentOptionsContainer');
+            const paymentTitle = paymentContainer.querySelector('h2');
+
+            // Retrieve order details from localStorage
+            const currentOrder = JSON.parse(localStorage.getItem('currentOrder'));
+            const user = JSON.parse(localStorage.getItem('user'));
+
+            if (!currentOrder || !user) {
+                showNotification('Error: No order details found. Redirecting to dashboard.', 'error');
+                setTimeout(() => window.location.href = 'buyer-dashboard.html', 1500);
+                return;
+            }
+
+            const totalAmount = currentOrder.price * currentOrder.quantity;
+
+            // Display order summary
+            orderSummary.innerHTML = `
+                <h4 class="font-semibold text-gray-900">${currentOrder.name}</h4>
+                <p class="text-gray-600">Price: ₹${currentOrder.price}/kg</p>
+                <p class="text-gray-600">Quantity: ${currentOrder.quantity} kg</p>
+                <p class="text-gray-600">Farmer: ${currentOrder.farmerName}</p>
+                <p class="font-bold text-lg text-gray-800 mt-2">Total Amount: ₹${totalAmount.toFixed(2)}</p>
+            `;
+
+            // // COD Availability Logic (Dummy)
+            // let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+            // const isEligibleForCOD = orderHistory.length >= 5 && currentOrder.quantity <= 5;
+
+            // if (isEligibleForCOD) {
+            //     codButton.disabled = false;
+            //     codButton.addEventListener('click', () => handlePayment('cod'));
+            // } else {
+            //     codButton.disabled = true;
+            //     codButton.classList.add('opacity-50', 'cursor-not-allowed');
+            //     const reason = orderHistory.length < 5 ? 'You need at least 5 previous orders for COD.' : 'COD is only for orders of 5kg or less.';
+            //     codOption.querySelector('p').textContent = reason;
+            // }
+
+            // Simulate QR Code Payment
+            payButton.addEventListener('click', () => handlePayment('qr'));
+
+            async function handlePayment(method) {
+                try {
+                    const response = await fetch('http://localhost:5000/api/orders', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            cropId: currentOrder.id,
+                            quantity: currentOrder.quantity,
+                            deliveryAddress: currentOrder.deliveryAddress,
+                            specialInstructions: currentOrder.specialInstructions,
+                            buyerId: user.id,
+                            buyerName: user.name
+                        })
+                    });
+
+                    const result = await response.json();
+                    if (!response.ok) throw new Error(result.message || 'Failed to place order');
+
+                    // Update dummy order history for COD logic
+                    let orderHistory = JSON.parse(localStorage.getItem('orderHistory')) || [];
+                    orderHistory.push(currentOrder);
+                    localStorage.setItem('orderHistory', JSON.stringify(orderHistory));
+
+                    // Show success screen
+                    if (paymentOptionsContainer) paymentOptionsContainer.classList.add('hidden');
+                    if (orderSummary) orderSummary.classList.add('hidden');
+                    if (paymentTitle) paymentTitle.classList.add('hidden');
+
+                    paymentSuccess.classList.remove('hidden');
+
+                    document.getElementById('successDetails').innerHTML = `
+                        An amount of <strong class="text-green-700">₹${totalAmount.toFixed(2)}</strong> has been processed.
+                        <br>Your order for <strong>${currentOrder.quantity}kg of ${currentOrder.name}</strong> has been placed successfully.
+                    `;
+
+                } catch (error) {
+                    console.error('Order placement error:', error);
+                    alert(`Order failed: ${error.message}`);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

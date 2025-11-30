@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Crops - AgriSetu</title>
+    <!-- <link rel="stylesheet" href="output.css"> -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+
+    <!-- Navigation -->
+    <nav class="bg-[#2d5016] shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+                        <i class="fas fa-seedling text-[#4ade80] text-2xl"></i>
+                        <span class="text-white text-xl font-bold">AgriSetu</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <!-- Use the same IDs as index.html for consistency with script.js -->
+                    <a href="index.html" class="text-white hover:text-[#4ade80] transition duration-300">Home</a>
+                    <button id="navLoginBtn" onclick="showLoginPage('user')" class="bg-transparent border border-white text-white px-4 py-2 rounded-lg hover:bg-white hover:text-[#2d5016] transition duration-300 cursor-pointer">Login</button>
+                    <button id="navSignupBtn" onclick="showSignupPage()" class="bg-[#4ade80] text-[#2d5016] px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 font-semibold cursor-pointer">Sign Up</button>
+                    <a id="navUsername" href="#" class="hidden text-white font-semibold border border-white px-4 py-2 rounded-lg hover:bg-white hover:text-[#2d5016] transition duration-300 cursor-pointer"></a>
+                    <button id="navLogoutBtn" class="hidden bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 font-semibold cursor-pointer">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- This is the Browse Crops Section, copied from buyer-dashboard.html -->
+        <div id="browseSection" class="bg-white rounded-2xl shadow-lg p-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Available Crops</h2>
+
+            <!-- Search and Filter -->
+            <div class="flex flex-col md:flex-row gap-4 mb-6">
+                <div class="relative flex-1">
+                    <input type="text" id="searchInput" placeholder="Search crops, farmers, or locations" class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-[#4ade80] focus:border-transparent">
+                    <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+                <select id="cropFilter" class="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                    <option value="">All Categories</option>
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="grains">Grains</option>
+                </select>
+                <select id="locationFilter" class="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                    <option value="all">All Locations</option>
+                    <option value="punjab">Punjab</option>
+                    <option value="haryana">Haryana</option>
+                    <option value="maharashtra">Maharashtra</option>
+                    <option value="uttar pradesh">Uttar Pradesh</option>
+                </select>
+                <button id="filterToggle" class="flex items-center px-3 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
+                    <i class="fas fa-filter mr-2"></i>
+                    Filters
+                </button>
+            </div>
+
+            <!-- Advanced Filters -->
+            <div id="advancedFilters" class="hidden bg-gray-50 p-4 rounded-lg border mb-4">
+                <div class="grid md:grid-cols-4 gap-4">
+                    <div>
+                        <label class="text-sm font-medium mb-2 block">Sort By</label>
+                        <select id="sortSelect" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <option value="newest">Newest First</option>
+                            <option value="low-high">Price: Low to High</option>
+                            <option value="high-low">Price: High to Low</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium mb-2 block">Quality</label>
+                        <select id="qualityFilter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <option value="all">All Quality</option>
+                            <option value="premium">Premium</option>
+                            <option value="grade a">Grade A</option>
+                            <option value="grade b">Grade B</option>
+                            <option value="standard">Standard</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium mb-2 block">Organic</label>
+                        <select id="organicFilter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <option value="all">All Types</option>
+                            <option value="organic">Organic Only</option>
+                            <option value="conventional">Conventional</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Crops Summary -->
+            <div class="flex items-center justify-between mb-6">
+                <p id="resultsCount" class="text-gray-600">Loading crops...</p>
+                <button id="clearFilters" class="text-sm text-blue-600 hover:underline cursor-pointer">Clear Filters</button>
+            </div>
+
+            <!-- Crops Grid -->
+            <div id="cropsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Crop cards will be dynamically inserted here by JavaScript -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="hidden text-center py-16 text-gray-500">
+                <div class="flex flex-col items-center">
+                    <i class="fas fa-leaf text-5xl text-gray-300 mb-4"></i>
+                    <p class="text-lg font-semibold text-gray-600">No crops match your search</p>
+                    <p class="text-sm mt-1">Try adjusting your filters or search terms.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- LOGIN-CHOICE-->
+    <div id="loginCheck" class="hidden fixed inset-0 bg-opacity-50 z-10 bg-[#343a40] items-center flex justify-around">
+    <div class="w-full max-w-md p-4 rounded-2xl relative bg-white h-screen max-h-1/2">
+        <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer" onclick="closePage('loginCheck')">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="text-center mb-6 p-10 ">
+            <i class="fas fa-seedling text-[#2d5016] text-4xl mb-4"></i>
+            <h2 class="text-3xl font-bold text-gray-700">Login Portal</h2>
+            <p class="text-gray-600 mt-2">Select your login type</p>
+        </div>
+        <div class="text-center">
+            <button id="adminLogin" onclick="closePage('loginCheck'); showLoginPage('admin')" class="bg-[#4ade80] text-[#2d5016] p-3 px-4 rounded-xl font-semibold text-xl mx-auto mr-2 hover:bg-green-600 transition duration-300 cursor-pointer">
+                <i class="fas fa-user-shield mr-2"></i>Admin Login</button>
+            <button id="userLogin" onclick="closePage('loginCheck'); showLoginPage('user')" class="bg-[#4ade80] text-[#2d5016] p-3 px-5 rounded-xl text-xl font-semibold hover:bg-green-600 ml-2 transition duration-300 cursor-pointer">
+                <i class="fas fa-user mr-2"></i>User Login</button>
+        </div>
+    </div>
+    </div>
+
+
+    <!-- LOGIN -->
+    <div id="loginPage" class="hidden fixed inset-0 bg-[#343a40] bg-opacity-50 z-10 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md relative">
+            <button onclick="closePage('loginPage')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <i class="fas fa-seedling text-[#2d5016] text-4xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-900">Welcome Back</h2>
+                <p class="text-gray-600">Login to your account</p>
+            </div>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="loginEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="loginPassword" name="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <button type="submit" class="w-full bg-[#2d5016] text-white py-3 rounded-lg font-semibold hover:bg-[#166534] transition duration-300 cursor-pointer">
+                    Login
+                </button>
+            </form>
+            <p id="signupPrompt" class="text-center text-gray-600 mt-6">
+                Don't have an account?
+                <button onclick="closePage('loginPage'); showSignupPage()" class="text-[#2d5016] hover:text-[#166534] font-semibold cursor-pointer">Sign Up</button>
+            </p>
+        </div>
+    </div>
+     
+
+    <!-- SIGN-UP -->
+    <div id="signupPage" class="fixed inset-0 bg-[#343a40] bg-opacity-50 hidden z-10 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md relative max-h-screen overflow-y-auto">
+            <button onclick="closePage('signupPage')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <i class="fas fa-seedling text-[#2d5016] text-4xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-900">Join AgriSetu</h2>
+                <p class="text-gray-600">Create your account</p>
+            </div>
+            <form id="signupForm" class="space-y-4">
+                <div>
+                    <label for="signupName" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="signupName" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="signupEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="signupEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="signupPhone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <input type="tel" id="signupPhone" name="phone" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent" maxlength="10" pattern="[0-9]{10}" title="Please enter a 10-digit phone number.">
+                </div>
+                <div>
+                    <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="signupPassword" name="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="signupRole" class="block text-sm font-medium text-gray-700 mb-2">I am a</label>
+                    <select id="signupRole" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                        <option value="">Select Role</option>
+                        <option value="seller">Seller</option>
+                        <option value="buyer">Buyer</option>
+                    </select>
+                </div>
+                <div class="flex ">
+                    <input type="checkbox" id="signupTerms" required class="accent-green-600 h-4 w-4 rounded-none mt-1 ">
+                    <label for="signupTerms" class="ml-2 mr-2 ">I agree to the </label>
+                    <a href="#" onclick="showTermsPage()"><span class="text-green-600 underline">Terms and Conditions</span></a>
+                </div>
+
+                <!-- Farmer fields -->
+                <div id="farmerFields" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Farm Location</label>
+                        <input type="text" id="farmLocation" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Land Size (acres)</label>
+                        <input type="number" id="landSize" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Crop Types</label>
+                        <input type="text" id="cropTypes" placeholder="e.g., Rice, Wheat, etc" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                    </div>
+                </div>
+
+                <button id="createAccountBtn" type="submit" class="w-full bg-[#2d5016] text-white py-3 rounded-lg font-semibold transition duration-300 hover:bg-[#166534] disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer" disabled>Create Account</button>
+            </form>
+            <p class="text-center text-gray-600 mt-6">Already have an account?
+                <button onclick="closePage('signupPage'); loginCheck()" class="text-[#2d5016] hover:text-[#166534] font-semibold cursor-pointer">Login</button>
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="browse.js"></script> 
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        updateNavbar();
+        initializeFilters();
+        loadCrops();
+    });
+    </script>
+</body>
+</html>
+    
+</body>
+</html>

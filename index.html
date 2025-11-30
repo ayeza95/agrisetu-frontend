@@ -1,0 +1,808 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGRISETU</title>
+    <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body class="bg-blue-100">
+    
+
+    <!-- NAVBAR -->
+    <nav id="navBar" class="navDiv1 bg-[#2d5016] shadow-lg fixed w-full top-0 z-10">
+        <div class="navDiv2 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+            <div class="navDiv3 flex justify-between items-center h-16">
+                <div class="navDiv4 flex items-center">
+                <a href="#home" class="text-[#4ade80] fas fa-seedling text-2xl mr-3 hover:text-[#4c9919] cursor-pointer"></a>
+                    <span class="text-white text-xl font-bold ">AgriSetu</span>
+                </div>
+            <div class="navDiv5 hidden md:flex items-center space-x-8">
+                <a href="#about" class="text-white hover:text-[#4ade80] transition duration-300">About</a>
+                <a href="#schemes" class="text-white hover:text-[#4ade80] transition duration-300">Schemes</a>
+                <button onclick="showContactPage()" class="text-white hover:text-[#4ade80] transition duration-300 cursor-pointer">Contact</button>
+                <!-- Logged-out state -->
+                <button id="navLoginBtn" onclick="loginCheck()" class="bg-transparent border border-white text-white px-4 py-2 rounded-lg hover:bg-white hover:text-[#2d5016] transition duration-300 cursor-pointer">Login</button>
+                <button id="navSignupBtn" onclick="showSignupPage()" class="bg-[#4ade80] text-[#2d5016] px-4 py-2 rounded-lg hover:bg-green-600 transition duration-300 font-semibold cursor-pointer">Sign Up</button>
+                <!-- Logged-in state (hidden by default) -->
+                <a id="navUsername" href="#" class="hidden text-white font-semibold border border-white px-4 py-2 rounded-lg hover:bg-white hover:text-[#2d5016] transition duration-300 cursor-pointer"></a>
+                <button id="navLogoutBtn" onclick="logout()" class="hidden bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-300 font-semibold cursor-pointer">Logout</button>
+            </div>
+            <div class="navDiv6 md:hidden">
+                <button onclick="mobileMenu()" class="text-white cursor-pointer">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Android k liye idhr rhega -->
+    <div id="mobileMenu" class="hidden md:hidden bg-[#e9ecef] z-10 fixed inset-0 overflow-y-auto">
+        <div id="toggleBar" class="bg-[#2d5016] shadow-lg fixed w-full top-0 z-10">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+                <div class="flex justify-between items-center h-16 ">
+                    <div class="navDiv4 flex items-center">
+                        <i style="color: #4ade80 " class="fas fa-seedling text-2xl mr-3 "></i>
+                        <span class="text-white text-xl font-bold ">AgriSetu</span>
+                    </div>
+                <div class="md:hidden">
+                    <button onclick="closePage('mobileMenu')" class="text-white cursor-pointer">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="px-2 pb-3 space-y-1 bg-[#dee2e6]">            
+                <a href="#home" onclick="closePage('mobileMenu')" class="block text-black hover:text-farm-light px-6 py-3 hover:text-[#2d5016] border-b mt-16">Home</a>
+                <a href="#about" onclick="closePage('mobileMenu')" class="block text-black hover:text-farm-light px-6 py-3 hover:text-[#2d5016] border-b ">About</a>
+                <a href="#schemes" onclick="closePage('mobileMenu')" class="block text-black hover:text-farm-light px-6 py-3 hover:text-[#2d5016] border-b ">Schemes</a>
+                <a href="#contact" onclick="closePage('mobileMenu'); showContactPage();" class="block text-black hover:text-farm-light px-6 py-3 hover:text-[#2d5016] border-b">Contact</a>
+        </div>
+        <div class="w-full flex justify-center mt-26 h-30" id="mobileAuthContainer">
+            <!-- Logged-out state for mobile -->
+            <div id="mobileLoggedOut" class="bg-[#343a40] w-1/3 rounded-2xl py-3 text-center h-12">
+                <button onclick="loginCheck()" class=" text-white hover:text-[#4ade80] cursor-pointer ">Login</button>
+                <button onclick="showSignupPage()" class=" text-white hover:text-[#4ade80] cursor-pointer whitespace-break-spaces">  /  Sign Up</button>
+            </div>
+            <!-- Logged-in state for mobile (hidden by default) -->
+            <div id="mobileLoggedIn" class="hidden bg-[#343a40] w-auto rounded-2xl py-3 px-4 text-center h-12 flex items-center space-x-4">
+                <span id="mobileUsername" class="text-white font-semibold"></span>
+                <button onclick="logout()" class="text-white hover:text-red-500 transition duration-300"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- HERO SECTION -->
+    <section id="home" class="bg-[url('agri1.png')] bg-no-repeat bg-cover bg-center h-screen w-full heroDiv1  min-h-screen flex items-center bg-white/80 bg-blend-overlay">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="heroDiv2 grid grid-cols-1 gap-12 items-center">
+                <div class="heroDiv3 content-center text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+                        Connect Directly with
+                        <span class="text-[#2d5016]">Local Farmers</span>
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8">Fresh produce, fair prices, no middlemen. 
+                        <br>
+                        Support local agriculture while getting the best quality crops.</p>
+                    <div class="heroDiv4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-center">
+                        <!-- onclick="showLoginPage('farmer')" -->
+                        <a href="farmer-registration.html"><button class="bg-[#2d5016] text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-green-600 transition duration-300 flex items-center justify-center cursor-pointer">
+                            <i class="fas fa-tractor mr-3"></i>
+                            Join as Farmer
+                        </button></a>
+                        <!-- onclick="showSignupPage('buyer')" -->
+                        <button onclick="shopNow()" class="bg-white text-[#2d5016] border-2 border-[#2d5016] px-8 py-4 rounded-xl text-lg font-semibold hover:bg-[#2d5016] hover:text-white  transition duration-300 flex items-center justify-center cursor-pointer">
+                            <i class="fas fa-shopping-cart mr-3"></i>
+                            Shop Fresh Produce
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- FEATURES -->
+    <section id="about" class="py-24 bg-white">
+        <div class="feaDiv1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="feaDiv2 text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Why Choose AgriSetu?</h2>
+                <p class="text-xl text-gray-600">Connecting farmers and consumers for a better tomorrow</p>
+            </div>
+            <div class="feaDiv3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-4">
+                <div class="feaDiv4 text-center p-6 rounded-xl bg-green-50 hover:bg-green-100 transition duration-300">
+                    <div class="feaDiv5 bg-[#2d5016] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-handshake text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Direct Connection</h3>
+                    <p class="text-gray-600">Buy directly from farmers without middlemen</p>
+                </div>
+                <div class="feaDiv6 text-center p-6 rounded-xl bg-green-50 hover:bg-green-100 transition duration-300">
+                    <div class="feaDiv7 bg-[#2d5016] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-leaf text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Fresh Produce</h3>
+                    <p class="text-gray-600">Get the freshest crops straight from the farm</p>
+                </div>
+                <div class="feaDiv8 text-center p-6 rounded-xl bg-green-50 hover:bg-green-100 transition duration-300">
+                    <div class="feaDiv9 bg-[#2d5016] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-dollar-sign text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Fair Prices</h3>
+                    <p class="text-gray-600">Better prices for both farmers and consumers</p>
+                </div>
+                <div class="feaDiv10 text-center p-6 rounded-xl bg-green-50 hover:bg-green-100 transition duration-300">
+                    <div class="feaDiv11 bg-[#2d5016] text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Quality Assured</h3>
+                    <p class="text-gray-600">Verified farmers and quality produce</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- SCHEMES -->
+    <section id="schemes" class="py-16 bg-gradient-to-br from-green-50 to-blue-50">
+        <div class="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 justify-items-center">
+            <div class="text-center py-12 ">
+                <h1 class="font-bold text-4xl py-2 ">Government Schemes & Subsidies</h1>
+                <p class="text-xl text-gray-600">Farmer-focused schemes ensuring growth, suppoort, and sustainability</p>
+            </div>
+            <div class="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-8 pb-10 ">
+                <div class="rounded-xl p-6 bg-green-50 shadow-lg shadow-green-100 ">
+                    <h1 class="font-bold text-[#2d5016]  text-2xl py-4 ">PM-KISAN Scheme</h1>
+                    <p>Direct income support of &#8377;6,000 per year to small and marginal farmers.</p>
+                    <a href="https://www.myscheme.gov.in/search"><button  class="border-gray-300 border-2 rounded my-3 px-3 py-1 font-semibold cursor-pointer hover:bg-gray-200 transition duration-300 ">Load More</button></a>
+                </div>
+                <div class="rounded-xl p-6 bg-green-50 shadow-lg shadow-green-100 ">
+                    <h1 class="font-bold text-[#2d5016]  text-2xl py-4 ">Crop Insurance</h1>
+                    <p>Pradhan Mantri Fasal Bima Yojana provides insurance coverage for crop losses.</p>
+                    <a href="https://www.myscheme.gov.in/schemes/pmfby"><button class="border-gray-300 border-2 rounded my-3 px-3 py-1 font-semibold cursor-pointer hover:bg-gray-200 transition duration-300 ">Load More</button></a>
+                </div>
+                <div class="rounded-xl p-6 bg-green-50 shadow-lg shadow-green-100 md:col-span-2 md:justify-self-center lg:col-span-1">
+                    <h1 class="font-bold text-[#2d5016] text-2xl py-4 ">Soil Health Card</h1>
+                    <p>Get soil testing and recommendations for better crop yield and quality.</p>
+                    <a href="https://www.myscheme.gov.in/search"><button class="border-gray-300 border-2 rounded my-3 px-3 py-1 font-semibold cursor-pointer hover:bg-gray-200 transition duration-300 ">Load More</button></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- LOGIN-CHOICE-->
+    <div id="loginCheck" class="hidden fixed inset-0 bg-opacity-50 z-10 bg-[#343a40] items-center flex justify-around">
+    <div class="w-full max-w-md p-4 rounded-2xl relative bg-white h-screen max-h-1/2">
+        <button class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer" onclick="closePage('loginCheck')">
+            <i class="fas fa-times text-xl"></i>
+        </button>
+        <div class="text-center mb-6 p-10 ">
+            <i class="fas fa-seedling text-[#2d5016] text-4xl mb-4"></i>
+            <h2 class="text-3xl font-bold text-gray-700">Login Portal</h2>
+            <p class="text-gray-600 mt-2">Select your login type</p>
+        </div>
+        <div class="text-center">
+            <button id="adminLogin" onclick="closePage('loginCheck'); showLoginPage('admin')" class="bg-[#4ade80] text-[#2d5016] p-3 px-4 rounded-xl font-semibold text-xl mx-auto mr-2 hover:bg-green-600 transition duration-300 cursor-pointer">
+                <i class="fas fa-user-shield mr-2"></i>Admin Login</button>
+            <button id="userLogin" onclick="closePage('loginCheck'); showLoginPage('user')" class="bg-[#4ade80] text-[#2d5016] p-3 px-5 rounded-xl text-xl font-semibold hover:bg-green-600 ml-2 transition duration-300 cursor-pointer">
+                <i class="fas fa-user mr-2"></i>User Login</button>
+        </div>
+    </div>
+    </div>
+
+
+    <!-- LOGIN -->
+    <div id="loginPage" class="hidden fixed inset-0 bg-[#343a40] bg-opacity-50 z-10 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md relative">
+            <button onclick="closePage('loginPage')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <i class="fas fa-seedling text-[#2d5016] text-4xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-900">Welcome Back</h2>
+                <p class="text-gray-600">Login to your account</p>
+            </div>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label for="loginEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="loginEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="loginPassword" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="loginPassword" name="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <button type="submit" class="w-full bg-[#2d5016] text-white py-3 rounded-lg font-semibold hover:bg-[#166534] transition duration-300 cursor-pointer">
+                    Login
+                </button>
+            </form>
+            <p id="signupPrompt" class="text-center text-gray-600 mt-6">
+                Don't have an account?
+                <button onclick="closePage('loginPage'); showSignupPage()" class="text-[#2d5016] hover:text-[#166534] font-semibold cursor-pointer">Sign Up</button>
+            </p>
+        </div>
+    </div>
+     
+
+    <!-- SIGN-UP -->
+    <div id="signupPage" class="fixed inset-0 bg-[#343a40] bg-opacity-50 hidden z-10 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md relative max-h-screen overflow-y-auto">
+            <button onclick="closePage('signupPage')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <i class="fas fa-seedling text-[#2d5016] text-4xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-900">Join AgriSetu</h2>
+                <p class="text-gray-600">Create your account</p>
+            </div>
+            <form id="signupForm" class="space-y-4">
+                <div>
+                    <label for="signupName" class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                    <input type="text" id="signupName" name="name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="signupEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="signupEmail" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="signupPhone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
+                    <input type="tel" id="signupPhone" name="phone" required oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent" maxlength="10" pattern="[0-9]{10}" title="Please enter a 10-digit phone number.">
+                </div>
+                <div>
+                    <label for="signupPassword" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                    <input type="password" id="signupPassword" name="password" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="signupRole" class="block text-sm font-medium text-gray-700 mb-2">I am a</label>
+                    <select id="signupRole" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                        <option value="">Select Role</option>
+                        <option value="seller">Seller</option>
+                        <option value="buyer">Buyer</option>
+                    </select>
+                </div>
+                <div class="flex ">
+                    <input type="checkbox" id="signupTerms" required class="accent-green-600 h-4 w-4 rounded-none mt-1 ">
+                    <label for="signupTerms" class="ml-2 mr-2 ">I agree to the </label>
+                    <a href="#" onclick="showTermsPage()"><span class="text-green-600 underline">Terms and Conditions</span></a>
+                </div>
+
+                <!-- Farmer fields -->
+                <div id="farmerFields" class="hidden space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Farm Location</label>
+                        <input type="text" id="farmLocation" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Land Size (acres)</label>
+                        <input type="number" id="landSize" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Crop Types</label>
+                        <input type="text" id="cropTypes" placeholder="e.g., Rice, Wheat, etc" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                    </div>
+                </div>
+
+                <button id="createAccountBtn" type="submit" class="w-full bg-[#2d5016] text-white py-3 rounded-lg font-semibold transition duration-300 hover:bg-[#166534] disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer" disabled>Create Account</button>
+            </form>
+            <p class="text-center text-gray-600 mt-6">Already have an account?
+                <button onclick="closePage('signupPage'); loginCheck()" class="text-[#2d5016] hover:text-[#166534] font-semibold cursor-pointer">Login</button>
+            </p>
+        </div>
+    </div>
+
+
+    <!-- Terms and Conditions -->
+    <section id="termsPage" class="fixed inset-0 bg-gray-50 font-sans hidden z-10 overflow-y-auto">
+    <div id="heroDiv" class="bg-green-50 py-12 mx-auto px-auto">
+        <div class="text-center">
+            <h2 class="text-4xl font-bold text-[#2E7D32] mb-4 ">Terms and Conditions</h2>
+            <p class="text-[#607D8B] text-lg max-w-3xl mx-auto">Please read these terms carefully before using AgriSetu platform. By creating an account, you agree to be bound by these terms.</p>
+        </div>
+    </div>
+    <div id="mainDiv" class="mx-auto px-4 py-12 flex  justify-center">
+        <!-- Terms content -->
+        <div id="termsDiv1" class="lg:w-3/4">
+            <div id="termsDiv2" class="bg-white rounded-lg shadow-md p-8">
+                <p class="text-[#607D8B] mb-8">Welcome to AgriSetu! These Terms and Conditions ("Terms") govern your use of the AgriSetu platform, a service designed to connect farmers, buyers, and agricultural experts. By accessing or using our platform and creating an account, you agree to be bound by these Terms.</p>
+                <div id="accountInfo" class="mb-10 p-6 rounded-lg border-l-4 border-gray-200 hover:border-l-4 hover:border-l-[#4CAF50] hover:bg-[#f0fff0]">
+                    <h2 class="text-2xl font-semibold text-[#2E7D32] mb-4 flex items-center"><i class="fas fa-user-circle mr-3"></i> 1. Account Information</h2>
+                    <div class="pl-10">
+                        <p class="text-[#607D8B] mb-4"><span class="font-semibold text-[#2E7D32]">1.1 Accuracy of Information:</span> You must provide accurate and complete details (including name, email, and phone number) while signing up for an account.</p>
+                        <p class="text-[#607D8B]"><span class="font-semibold text-[#2E7D32]">1.2 Account Security:</span> You are responsible for maintaining the security of your account credentials and for all activities that occur under your account.</p>
+                    </div>
+                </div>
+                <div id="useOfPlatform" class="mb-10 p-6 rounded-lg border-l-4 border-gray-200 hover:border-l-4 hover:border-l-[#4CAF50] hover:bg-[#f0fff0]">
+                    <h2 class="text-2xl font-semibold text-[#2E7D32] mb-4 flex items-center"><i class="fas fa-laptop mr-3"></i> 2. Use of Platform</h2>
+                    <div class="pl-10">
+                        <p class="text-[#607D8B] mb-4"><span class="font-semibold text-[#2E7D32]">2.1 Intended Use:</span> AgriSetu is designed to connect farmers, buyers, and agricultural experts for legitimate agricultural purposes.</p>
+                        <p class="text-[#607D8B]"><span class="font-semibold text-[#2E7D32]">2.2 Prohibited Activities:</span> You agree not to misuse the platform for any fraudulent, spam, illegal activities, or any purpose not intended by AgriSetu.</p>
+                    </div>
+                </div>
+                <div id="privacy" class="mb-10 p-6 rounded-lg border-l-4 border-gray-200 hover:border-l-4 hover:border-l-[#4CAF50] hover:bg-[#f0fff0]">
+                    <h2 class="text-2xl font-semibold text-[#2E7D32] mb-4 flex items-center"><i class="fas fa-shield-alt mr-3"></i> 3. Privacy</h2>
+                    <div class="pl-10">
+                        <p class="text-[#607D8B] mb-4"><span class="font-semibold text-[#2E7D32]">3.1 Data Usage:</span> Your personal details will only be used for communication and facilitation of services within the AgriSetu platform.</p>
+                        <p class="text-[#607D8B]"><span class="font-semibold text-[#2E7D32]">3.2 Data Sharing:</span> We will not share your personal information with third parties without your explicit consent, except as required by law.</p>
+                    </div>
+                </div>
+                <div id="contentSharing" class="mb-10 p-6 rounded-lg border-l-4 border-gray-200 hover:border-l-4 hover:border-l-[#4CAF50] hover:bg-[#f0fff0]">
+                    <h2 class="text-2xl font-semibold text-[#2E7D32] mb-4 flex items-center"><i class="fas fa-share-square mr-3"></i> 4. Content Sharing</h2>
+                    <div class="pl-10">
+                        <p class="text-[#607D8B] mb-4"><span class="font-semibold text-[#2E7D32]">4.1 Truthful Information:</span> Any information you share on the platform (including crop details, offers, expert advice) should be accurate and truthful.</p>
+                        <p class="text-[#607D8B]"><span class="font-semibold text-[#2E7D32]">4.2 Content Responsibility:</span> You are solely responsible for the content you post on AgriSetu and any consequences that may result from sharing that content.</p>
+                    </div>
+                </div>
+                <div id="limitations" class="mb-10 p-6 rounded-lg border-l-4 border-gray-200 hover:border-l-4 hover:border-l-[#4CAF50] hover:bg-[#f0fff0]">
+                    <h2 class="text-2xl font-semibold text-[#2E7D32] mb-4 flex items-center"><i class="fas fa-exclamation-triangle mr-3"></i> 5. Limitations</h2>
+                    <div class="pl-10">
+                        <p class="text-[#607D8B] mb-4"><span class="font-semibold text-[#2E7D32]">5.1 Service Nature:</span> Please note that AgriSetu is a student project, and as such, the service may have limitations and may not include all features of a commercial platform.</p>
+                        <p class="text-[#607D8B]"><span class="font-semibold text-[#2E7D32]">5.2 Liability:</span> We are not liable for any losses or damages resulting from incorrect data, technical issues, or service interruptions on the platform.</p>
+                    </div>
+                </div>
+                <div id="agreement" class="mb-10 p-6 rounded-lg border-l-4 border-gray-200 hover:border-l-4 hover:border-l-[#4CAF50] hover:bg-[#f0fff0]">
+                    <h2 class="text-2xl font-semibold text-[#2E7D32] mb-4 flex items-center"><i class="fas fa-handshake mr-3"></i> 6. Agreement</h2>
+                    <div class="pl-10">
+                        <p class="text-[#607D8B]"><span class="font-semibold text-[#2E7D32]">6.1 Acceptance:</span> By creating an account on AgriSetu, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.</p>
+                    </div>
+                </div>
+                <div id="termination" class="mb-10 p-6 rounded-lg border-l-4 border-gray-200 hover:border-l-4 hover:border-l-[#4CAF50] hover:bg-[#f0fff0]">
+                    <h2 class="text-2xl font-semibold text-[#2E7D32] mb-4 flex items-center"><i class="fas fa-times-circle mr-3"></i> 7. Termination of Account</h2>
+                    <div class="pl-10">
+                        <p class="text-[#607D8B]"><span class="font-semibold text-[#2E7D32]">7.1 Account Suspension:</span> We reserve the right to suspend or delete accounts that violate our rules, engage in fraudulent activities, or otherwise misuse the AgriSetu platform.</p>
+                    </div>
+                </div>
+                <div id="thirdParty" class="mb-10 p-6 rounded-lg border-l-4 border-gray-200 hover:border-l-4 hover:border-l-[#4CAF50] hover:bg-[#f0fff0]">
+                    <h2 class="text-2xl font-semibold text-[#2E7D32] mb-4 flex items-center"><i class="fas fa-external-link-alt mr-3"></i> 8. Third-Party Links</h2>
+                    <div class="pl-10">
+                        <p class="text-[#607D8B]"><span class="font-semibold text-[#2E7D32] ">8.1 External Resources:</span> AgriSetu may display links to third-party resources or services (such as government schemes or weather APIs). We are not responsible for the accuracy, content, or functionality of these external resources.</p>
+                    </div>
+                </div>
+                <div id="changes" class="mb-10 p-6 rounded-lg border-l-4 border-gray-200 hover:border-l-4 hover:border-l-[#4CAF50] hover:bg-[#f0fff0]">
+                    <h2 class="text-2xl font-semibold text-[#2E7D32] mb-4 flex items-center"><i class="fas fa-sync-alt mr-3"></i> 9. Changes to Terms</h2>
+                    <div class="pl-10">
+                        <p class="text-[#607D8B] mb-4"><span class="font-semibold text-[#2E7D32]">9.1 Updates:</span> These Terms and Conditions may be updated or modified in the future to reflect changes in our services or legal requirements.</p>
+                        <p class="text-[#607D8B]"><span class="font-semibold text-[#2E7D32]">9.2 Notification:</span> Users will be notified of any significant changes to these Terms through the platform or via email.</p>
+                    </div>
+                </div>
+                <div id="acceptance" class="bg-green-50 p-6 rounded-lg mt-8 border-4 border-gray-200 hover:border-4 hover:bg-[#f0fff0]">
+                    <h3 class="text-xl font-semibold text-[#2E7D32] mb-4">Acceptance of Terms</h3>
+                    <p class="text-[#607D8B] mb-4">By using AgriSetu, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions.</p>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="accept-terms" class="mr-2 h-5 w-5 text-[#4CAF50]">
+                        <label for="accept-terms" class="text-[#607D8B]">I have read and agree to the Terms and Conditions</label>
+                    </div>
+                    <button id="continueBtn" onclick="showSignupPage(true)" class="mt-4 bg-[#4CAF50] text-white px-6 py-2 rounded-lg font-semibold transition duration-300 hover:bg-[#137216] disabled:opacity-50 disabled:cursor-not-allowed enabled:cursor-pointer" disabled>Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="bg-[#2d5016] text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-seedling text-[#4ade80] text-2xl mr-3"></i>
+                        <span class="text-xl font-bold">AgriSetu</span>
+                    </div>
+                    <p class="text-gray-300">Connecting farmers and consumers for a better tomorrow</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-300 hover:text-white transition duration-300">Home</a></li>
+                        <li><a href="#cropSection" class="text-gray-300 hover:text-white transition duration-300">Crops</a></li>
+                        <li><a href="#about" class="text-gray-300 hover:text-white transition duration-300">About</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">For Farmers</h4>
+                    <ul class="space-y-2">
+                        <li><a href="farmer-registration.html" class="text-gray-300 hover:text-white transition duration-300">Sell Your Crops</a></li>
+                        <li><a href="#farmersGuide" onclick="showFarmersGuide()" class="text-gray-300 hover:text-white transition duration-300">Farmer Guide</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">Market Prices</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Contact</h4>
+                    <div class="space-y-2">
+                        <p class="text-gray-300"><i class="fas fa-phone mr-2"></i> +91 234 567 8900</p>
+                        <p class="text-gray-300"><i class="fas fa-envelope mr-2"></i> info@agrisetu.com</p>
+                        <p class="text-gray-300"><i class="fas fa-map-marker-alt mr-2"></i> 123 Farm Street, Agriculture City</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-600 mt-8 pt-8 text-center">
+                <p class="text-gray-300">&copy; 2026 AgriSetu. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- FARMERS GUIDE -->
+    <section id="farmersGuide" class="bg-gray-50 fixed inset-0 overflow-y-auto font-poppins hidden">
+        <!-- Hero Section -->
+        <div id="heroDiv" class="bg-gradient-to-r from-[#2e7d32] to-[#4caf50] text-white py-6 mt-16">
+            <div class="mx-auto px-4 text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-4">Farmer's Complete Guide</h1>
+                <p class="text-xl mb-8 max-w-2xl mx-auto">From soil preparation to harvest - Everything you need to know for successful farming</p>
+                <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainDiv" class="mx-auto px-4 py-12">
+            <div id="guide" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 relative pb-3 after:bg-green-500">Complete Farming Guide</h2>
+                <p class="text-gray-600 mb-8">A step-by-step approach to successful farming from planning to harvest</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Phase - 1 -->
+                     <div class="bg-white rounded-xl shadow-md p-6 hover:-translate-y-1 hover:shadow-xl transition duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white font-bold mr-4">1</div>
+                            <h3 class="text-xl font-bold text-gray-800">Foundation & Planning</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Understanding your land, soil testing, and crop selection</p>
+                        <ul class="text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Soil Testing & Analysis</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Climate Assessment</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Crop Selection</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Land Preparation</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Phase - 2 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:-translate-y-1 hover:shadow-xl transiton duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white font-bold mr-4">2</div>
+                            <h3 class="text-xl font-bold text-gray-800">Cultivation & Management</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Sowing, irrigation, nutrition, and pest management</p>
+                        <ul class="text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Sowing & Planting</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Water Management</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Nutrition & Fertilizers</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Pest Control</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Phase - 3 -->
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:-translate-y-1 hover:shadow-xl transtion duration-300">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center justify-center w-10 h-10 rounded-full bg-green-500 text-white font-bold mr-4">3</div>
+                            <h3 class="text-xl font-bold text-gray-800">Harvest & Post-Harvest</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">Harvesting techniques and proper storage methods</p>
+                        <ul class="text-gray-600 space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Harvesting at Right Time</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Post-Harvest Handling</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Storage & Preservation</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check text-green-400 mt-1 mr-2"></i>
+                                <span>Direct to Buyer Sales</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seasonal Guide -->
+            <div id="seasonal" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 pb-3">Seasonal Crop Guide</h2>
+                <p class="text-gray-600 mb-8">What to plant and when for optimal yield</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Summer -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:-translate-y-1 hover:shadow-xl transition duration-300">
+                        <div class="bg-yellow-500 text-white py-3 px-4">
+                            <h3 class="text-xl font-bold">Summer (Zaid Season)</h3>
+                            <p class="text-sm opacity-90">March - June</p>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-semibold text-gray-700 mb-2">Vegetables</h4>
+                            <p class="text-gray-600 mb-4">Bitter Gourd, Pumpkin, Bottle Gourd, Cucumber, Okra, Tomato, Chili</p>
+                            <h4 class="font-semibold text-gray-700 mb-2">Fruits</h4>
+                            <p class="text-gray-600 mb-4">Mango, Watermelon, Muskmelon, Litchi</p>
+                            <h4 class="font-semibold text-gray-700 mb-2">Grains & Cash crops</h4>
+                            <p class="text-gray-600">Rice, Cotton</p>
+                        </div>
+                    </div>
+                    <!-- Monsoon -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:-translate-y-1 hover:shadow-xl transition duration-300">
+                        <div class="bg-blue-500 text-white py-3 px-4">
+                            <h3 class="text-xl font-bold">Monsoon (Kharif Season)</h3>
+                            <p class="text-sm opacity-90">July - October</p>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-semibold text-gray-700 mb-4">Vegetables</h4>
+                            <p class="text-gray-600 mb-4">Brinjal, Tomsto, Spinach, Fenugreek, Radish</p>
+                            <h4 class="font-semibold text-gray-700 mb-2">Fruits</h4>
+                            <p class="text-gray-600">Banana, Guava, Pomegranate</p>
+                            <h4 class="font-semibold text-gray-700 mb-2">Grains & Cash crops</h4>
+                            <p class="text-gray-600">Rice, Maize, Soybean, Cotton, Millets</p>
+                        </div>
+                    </div>
+                    <!-- Winter -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden hover:-translate-y-1 hover:shadow-xl transition duration-300">
+                        <div class="bg-blue-300 text-white py-3 px-4">
+                        <h3 class="text-xl font-bold">Winter (Rabi Season)</h3>
+                        <p class="text-sm opacity-90">October - March</p>
+                        </div>
+                        <div class="p-5">
+                            <h4 class="font-semibold text-gray-700 mb-2">Vegetables</h4>
+                            <p class="text-gray-600 mb-4">Cauliflower, Cabbage, Carrot, Radish, Spinach, Peas, Onion, Potato</p>
+                            <h4 class="font-semibold text-gray-700 mb-2">Fruits</h4>
+                            <p class="text-gray-600 mb-4">Orange, Kinnow, Strawberry, Apple</p>
+                            <h4 class="font-semibold text-gray-700 mb-2">Grains & Cash crops</h4>
+                            <p class="text-gray-600">Wheat, Barley, Mustard, Chickpea</p>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- Organic Farming -->
+            <div id="organic" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 relative pb-3">Organic Farming Methods</h2>
+                <p class="text-gray-600 mb-8">Sustainable farming without chemicals</p>
+                <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Natural Pest Control Methods</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="text-xl font-semibold text-gray-700 mb-2">Neem Oil Spray</h4>
+                            <p class="text-gray-600 mb-2">Mix 5ml neem oil with a few drops of soap in 1 litre of water. Effective against most common pests.</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                <span>Prevents aphids, mites, and caterpillars</span>
+                            </div>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="text-xl font-semibold text-gray-700 mb-2">Garlic-Chili Spray</h4>
+                            <p class="text-gray-600 mb-2">Blend garlic and chilies, soak in water, strain and spray. Acts as a strong repellent.</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="fas fa-bug mr-2"></i>
+                                <span>Repels insects and small pests</span>
+                            </div>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="text-xl font-semibold
+                             text-gray-700 mb-2">Companion Planting</h4>
+                             <p class="text-gray-600 mb-2">Plant marigoolds with tomatoes to repel nematodes. Basil near crops repels flies and mosquitoes.</p>
+                             <div class="flex items-center text-sm text-gray-500">
+                                <i class="fas fa-seedling mr-2"></i>
+                                <span>Natural pest deterrent</span>
+                             </div>
+                        </div>
+                        <div class="border-l-4 border-green-500 pl-4">
+                            <h4 class="text-xl font-semibold text-gray-700 mb-2">Beneficial Insects</h4>
+                            <p class="text-gray-600 mb-2">Encourage ladybugs, spiders, and parasitic wasps by having diverse plants on the farm.</p>
+                            <div class="flex items-center text-sm text-gray-500">
+                                <i class="fas fa-spider mr-2"></i>
+                                <span>Natural predators for pests</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:-translate-y-1 hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-recycle text-green-500 mr-3"></i>
+                            Organic Fertilizers
+                        </h3>
+                        <ul class="text-gray-600 space-y-3">
+                            <li class="flex items-start">
+                                <div>
+                                    <span class="font-medium">◾Compost:</span> Decomposed kitchen and farm waste
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div>
+                                    <span class="font-medium">◾Vermicompost:</span> High-quality compost from earthworms
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div>
+                                    <span class="font-medium">◾Farmyard Manure:</span> Dung and urine from farm animals
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div>
+                                    <span class="font-medium">◾Green Manure:</span>Growing and ploughing back crops like Sunhemp
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-md p-6 hover:-translate-y-1 hover:shadow-xl transition duration-300">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-tint text-blue-400 mr-3">Water Management</i></h3>
+                        <ul class="text-gray-600 space-y-3">
+                            <li class="flex items-start">
+                            <div>
+                                <span class="font-medium">◾Drip Irrigation:</span> Saves 30-50% water, reduces weeds
+                            </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div>
+                                    <span class="font-medium">◾Sprinkler Irrigation:</span> Even coverage like rain
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div>
+                                    <span class="font-medium">◾Proper Spacing:</span> Ensures adequate sunlight and air circulation
+                                </div>
+                            </li>
+                            <li class="flex items-start">
+                                <div>
+                                    <span class="font-medium">◾Contour Farming:</span> Prevents soil erosion on slopes
+                                </div>
+                            </li>
+                        </ul>
+                    </div> 
+                </div>
+            </div>
+            <!-- Tools & Resouces -->
+            <div id="tools" class="mb-16">
+                <h2 class="text-3xl font-bold text-gray-800 mb-2 relative pb-3">Tools & Resources</h2>
+                <p class="text-gray-600 mb-8">Essential equipment and resources for modern farming</p>
+                <div>
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">Essential Farming Tools</h3>
+                    <div class="bg-white rounded-xl shadow-md p-6 mb-6">
+                        <h4 class="text-xl font-semibold text-gray-700 mb-3 flex items-center">
+                            <i class="fas fa-tools text-gray-500 mr-3"></i>Basic Hand Tools
+                        </h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Spade</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Khurpi (Weeding)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Sickle</span>
+                            </div>
+                            <div class="flex items-center">
+                                <i class="fas fa-check text-green-500 mr-2"></i>
+                                <span>Rake</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h4 class="text-xl font-semibold tetx-gray-700 mb-3 flex items-center">
+                        <i class="fas fa-tractor text-gray-500 mr-3"></i>Advanced Equipment
+                    </h4>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Power Tiller</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Seed Drill</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Sprayer</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span>Harvester</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="bg-white rounded-xl shadow-md p-6">
+                    <h4 class="text-xl font-semibold text-gray-700 mb-3">Golden Rules for Success</h4>
+                    <ul class="text-gray-600 space-y-2">
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-500 mt-1 mr-2"></i>
+                            <span>Know Your Soil: Regular soil testing is essential</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-500 mt-1 mr-2"></i>
+                            <span>Embrace Diversity: Grow multiple cros to reduce risk</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-500 mt-1 mr-2"></i>
+                            <span>Water is Life: Use efficient irrigation methods</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-500 mt-1 mr-2"></i>
+                            <span>Feed the Soil: Focus on organic matter for healthy plants</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-star text-yellow-500 mt-1 mr-2"></i>
+                            <span>Work with Nature: Use sustainable farming practices</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- CONTACT -->
+    <div id="contactPage" class="hidden fixed inset-0 bg-[#343a40] bg-opacity-50 z-10 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md relative">
+            <button onclick="closePage('contactPage')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <i class="fas fa-seedling text-[#2d5016] text-4xl mb-4"></i>
+                <h2 class="text-2xl font-bold text-gray-900">Contact Us</h2>
+                <p class="text-gray-600">Reach out for quick support</p>
+            </div>
+                <form id="contactForm"
+                action="https://formspree.io/f/mjkpnrgw"
+                method="POST"
+                class="space-y-4">
+                <div>
+                    <label for="contactEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                    <input type="email" id="contactEmail" name="email" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="contactSubject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
+                    <input type="text" id="contactSubject" name="subject" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-[#4ade80] focus:border-transparent">
+                </div>
+                <div>
+                    <label for="contactMessage" class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+                    <textarea id="contactMessage" name="message" rows="3" required
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4ade80] focus:outline-none focus:border-transparent"></textarea>
+                </div>
+                <button type="submit"
+                        class="w-full bg-[#2d5016] text-white py-3 rounded-lg font-semibold hover:bg-[#166534] transition duration-300 cursor-pointer">
+                    Submit
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
