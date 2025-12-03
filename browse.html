@@ -237,13 +237,17 @@
     </div>
 
     <script src="script.js"></script>
-    <script src="browse.js"></script> 
+    <script src="browse.js"></script>
     <script>
     document.addEventListener("DOMContentLoaded", () => {
         updateNavbar();
         initializeFilters();
         loadCrops();
     });
+        document.addEventListener("DOMContentLoaded", () => {
+            // The main script.js handles the signup redirection
+            // The browse.js handles filtering and loading crops
+        });
     </script>
 </body>
 </html>

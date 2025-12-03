@@ -4,7 +4,6 @@ const CLOUDINARY_CLOUD_NAME = 'dxzxlci6n';
 const CLOUDINARY_UPLOAD_PRESET = 'ayeza24';
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Check authentication
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user || user.role !== 'seller') {
         // Use a notification before redirecting
@@ -143,9 +142,9 @@ async function loadFarmerCrops() {
                 </td>
                 <td class="py-3 px-4">
                     <div class="flex gap-2">
-                        <button onclick="editCrop('${crop._id}')" class="text-blue-600 hover:text-blue-800">
+                        <!--<button onclick="editCrop('${crop._id}')" class="text-blue-600 hover:text-blue-800">
                             <i class="fas fa-edit"></i>
-                        </button>
+                        </button>-->
                         <button onclick="deleteCrop('${crop._id}')" class="text-red-600 hover:text-red-800">
                             <i class="fas fa-trash"></i>
                         </button>
@@ -172,10 +171,6 @@ async function loadFarmerCrops() {
 
 /**
  * @function addNewCrop
- * Corrected file upload logic:
- * 1. Uploads image to Cloudinary first using the correct endpoint and preset.
- * 2. Receives the secure URL.
- * 3. Sends all crop data (including the image URL) as JSON to the local backend.
  */
 async function addNewCrop(event) {
     event.preventDefault();
@@ -475,12 +470,8 @@ async function updateOrderStatus(orderId, newStatus) {
 
 // View order details
 function viewOrderDetails(orderId) {
-    // For now, show a simple alert with order ID
-    // You can expand this to show a detailed modal later
     showNotification(`Viewing order details for: ${orderId.slice(-8)}. Detailed view coming soon!`, 'info');
-    
-    // Future implementation:
-    // showOrderDetailsModal(orderId);
+
 }
 
 // Profile Management
@@ -540,8 +531,6 @@ async function updateFarmerProfile(event) {
 
         const result = await response.json();
 
-        // The backend returns the complete, updated user object.
-        // We must ensure the 'id' field (which the frontend uses) is consistent with '_id' from the backend.
         const finalUpdatedUser = result.user;
         finalUpdatedUser.id = finalUpdatedUser._id; 
 

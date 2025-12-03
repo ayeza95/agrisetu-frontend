@@ -98,8 +98,8 @@ document.addEventListener("DOMContentLoaded", function(){
             if (response.ok) {
                 console.log("Signup successful:", data);
                 showNotification(data.message, 'success'); // "User created successfully!"
-                closePage('signupPage'); // Close the signup modal
-                signupForm.reset(); // Clear the form
+                closePage('signupPage'); 
+                signupForm.reset(); 
             } else {
                 console.error("Signup failed:", data);
                 // Show error message from backend
@@ -119,8 +119,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
         const email = document.getElementById("loginEmail").value;
         const password = document.getElementById("loginPassword").value;
-        // The role is not sent to the login endpoint, but you might need it for other logic
-        // const role = document.getElementById("loginRole").value;
 
         try {
             const response = await fetch('http://localhost:5000/api/users/login', {
@@ -161,7 +159,44 @@ document.addEventListener("DOMContentLoaded", function(){
             showNotification('Login failed. Please check the console for more details.', 'error');
         }
     });
+
+    // --- CONTACT FORM SUBMISSION (FORMSPREE) ---
+    const contactForm = document.getElementById("contactForm");
+    if (contactForm) {
+        contactForm.addEventListener("submit", handleContactFormSubmit);
+    }
 });
+
+/**
+ * @param {Event} event The form submission event.
+ */
+async function handleContactFormSubmit(event) {
+    event.preventDefault(); // Prevent the default form submission
+    const form = event.target;
+    const data = new FormData(form);
+
+    try {
+        const response = await fetch(form.action, {
+            method: form.method,
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            showNotification("Thank you for your message! We'll get back to you soon.", 'success');
+            form.reset();
+            closePage('contactPage');
+        } else {
+            // Handle server-side errors from Formspree
+            const responseData = await response.json();
+            throw new Error(responseData.error || 'Failed to send message.');
+        }
+    } catch (error) {
+        showNotification(`Error: ${error.message}`, 'error');
+    }
+}
 
 function updateNavbar() {
     // Desktop Nav Elements
@@ -209,7 +244,6 @@ function updateNavbar() {
         if (mobileUsername)  mobileUsername.textContent = user.name;
 
     } else {
-        // ❌ Not logged-in
         if (navLoginBtn)  navLoginBtn.classList.remove('hidden');
         if (navSignupBtn) navSignupBtn.classList.remove('hidden');
         if (navUsername)  navUsername.classList.add('hidden');
@@ -246,11 +280,6 @@ function showTermsPage(){
     document.getElementById("termsPage").classList.remove("hidden");
 }
 
-/**
- * Handles the "Shop Fresh Produce" button click.
- * If user is logged in as a buyer, redirects to the dashboard.
- * Otherwise, prompts the user to log in.
- */
 function shopNow() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.role === 'buyer') {
@@ -267,6 +296,11 @@ function showContactPage(){
     document.getElementById("contactPage").classList.remove("hidden");
 }
 
+function showContactPageFromMenu() {
+    closePage('mobileMenu');
+    showContactPage();
+}
+
 function loginCheck(){
     document.getElementById("loginCheck").classList.remove("hidden");  
 }
@@ -275,11 +309,10 @@ function closePage(id) {
     document.getElementById(id).classList.add("hidden");
     document.body.classList.remove('overflow-hidden');
 
-    // Clear form fields when closing login or signup pages
     if (id === 'loginPage') {
         const loginForm = document.getElementById('loginForm');
         if (loginForm) loginForm.reset();
-
+        
         // Also close the loginCheck modal if it's open in the background
         const loginCheckModal = document.getElementById('loginCheck');
         if (loginCheckModal && !loginCheckModal.classList.contains('hidden')) {
@@ -292,7 +325,6 @@ function closePage(id) {
         const contactForm = document.getElementById('contactForm');
         if (contactForm) contactForm.reset();
     }
-
 }
 
 function mobileMenu() {
@@ -300,15 +332,12 @@ function mobileMenu() {
     document.body.classList.add('overflow-hidden');
 }
 
-// script.js - Update the logout function
 function logout() {
     console.log("Logout function called");
     
     // Clear user data from localStorage
     localStorage.removeItem('user');
     
-    // Force redirect to home page
-    // Show notification and redirect after a delay to ensure the message is seen.
     showNotification("You have been logged out.", "info");
     setTimeout(() => {
         window.location.href = 'index.html';
@@ -386,7 +415,6 @@ function saveWishlist(wishlist) {
 }
 
 /**
- * Adds or removes a crop from the wishlist and updates the UI.
  * Prompts for login if the user is not authenticated.
  * @param {string} cropId - The ID of the crop to toggle.
  * @param {HTMLElement} buttonElement - The button element that was clicked.

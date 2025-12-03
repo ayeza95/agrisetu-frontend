@@ -61,7 +61,7 @@
                 <a href="#home" onclick="closePage('mobileMenu')" class="block text-black hover:text-farm-light px-6 py-3 hover:text-[#2d5016] border-b mt-16">Home</a>
                 <a href="#about" onclick="closePage('mobileMenu')" class="block text-black hover:text-farm-light px-6 py-3 hover:text-[#2d5016] border-b ">About</a>
                 <a href="#schemes" onclick="closePage('mobileMenu')" class="block text-black hover:text-farm-light px-6 py-3 hover:text-[#2d5016] border-b ">Schemes</a>
-                <a href="#contact" onclick="closePage('mobileMenu'); showContactPage();" class="block text-black hover:text-farm-light px-6 py-3 hover:text-[#2d5016] border-b">Contact</a>
+                <button onclick="showContactPageFromMenu()" class="block text-black hover:text-farm-light px-6 py-3 hover:text-[#2d5016] border-b w-full text-left cursor-pointer">Contact</button>
         </div>
         <div class="w-full flex justify-center mt-26 h-30" id="mobileAuthContainer">
             <!-- Logged-out state for mobile -->
@@ -92,7 +92,7 @@
                         Support local agriculture while getting the best quality crops.</p>
                     <div class="heroDiv4 flex flex-col sm:flex-row gap-4 justify-center lg:justify-center">
                         <!-- onclick="showLoginPage('farmer')" -->
-                        <a href="farmer-registration.html"><button class="bg-[#2d5016] text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-green-600 transition duration-300 flex items-center justify-center cursor-pointer">
+                        <a href="farmer-registration.html" class="flex justify-center"><button class="bg-[#2d5016] text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-green-600 transition duration-300 flex items-center justify-center cursor-pointer">
                             <i class="fas fa-tractor mr-3"></i>
                             Join as Farmer
                         </button></a>
@@ -409,7 +409,7 @@
                     <ul class="space-y-2">
                         <li><a href="farmer-registration.html" class="text-gray-300 hover:text-white transition duration-300">Sell Your Crops</a></li>
                         <li><a href="#farmersGuide" onclick="showFarmersGuide()" class="text-gray-300 hover:text-white transition duration-300">Farmer Guide</a></li>
-                        <li><a href="#" class="text-gray-300 hover:text-white transition duration-300">Market Prices</a></li>
+                        <li><a href="#" onclick="alert('this feature will be implemented soon')" class="text-gray-300 hover:text-white transition duration-300">Market Prices</a></li>
                     </ul>
                 </div>
                 <div>
@@ -766,28 +766,29 @@
 
 
     <!-- CONTACT -->
-    <div id="contactPage" class="hidden fixed inset-0 bg-[#343a40] bg-opacity-50 z-10 flex items-center justify-center p-4">
+    <div id="contactPage" class="hidden fixed inset-0 bg-[#343a40] bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl p-8 w-full max-w-md relative">
             <button onclick="closePage('contactPage')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 cursor-pointer">
                 <i class="fas fa-times text-xl"></i>
             </button>
             <div class="text-center mb-6">
                 <i class="fas fa-seedling text-[#2d5016] text-4xl mb-4"></i>
-                <h2 class="text-2xl font-bold text-gray-900">Contact Us</h2>
+                <h2 class="text-2xl font-bold text-gray-900">Contact Us</h2> 
                 <p class="text-gray-600">Reach out for quick support</p>
             </div>
                 <form id="contactForm"
                 action="https://formspree.io/f/mjkpnrgw"
                 method="POST"
                 class="space-y-4">
+                
                 <div>
                     <label for="contactEmail" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                     <input type="email" id="contactEmail" name="email" required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4ade80] focus:border-transparent">
                 </div>
                 <div>
-                    <label for="contactSubject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label>
-                    <input type="text" id="contactSubject" name="subject" required
+                    <label for="contactSubject" class="block text-sm font-medium text-gray-700 mb-2">Subject</label> 
+                    <input type="text" id="contactSubject" name="subject" required 
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:outline-none focus:ring-[#4ade80] focus:border-transparent">
                 </div>
                 <div>

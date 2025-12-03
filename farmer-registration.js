@@ -3,9 +3,6 @@
 const CLOUDINARY_CLOUD_NAME = 'dxzxlci6n'; 
 const CLOUDINARY_UPLOAD_PRESET = 'ayeza24';
 
-/**
- * Uploads a single file to Cloudinary and returns the secure URL.
- */
 async function uploadFileToCloudinary(file) {
     const cloudinaryFormData = new FormData();
     cloudinaryFormData.append('file', file);
@@ -157,7 +154,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- NAVIGATION & SUBMISSION HANDLER ---
-    // IMPORTANT: using 'click' instead of 'submit' bypasses browser validation on hidden fields
     nextBtn.addEventListener('click', async () => {
         
         // 1. Validate current step before moving
@@ -241,19 +237,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // C. Construct Payload (Matches Backend Schema)
             const payload = {
-                name: rawData.fullName, // Mapped from 'fullName' input
+                name: rawData.fullName,
                 email: rawData.email,
                 password: rawData.password,
                 phone: rawData.phone,
-                role: 'seller', // Hardcoded as this is farmer registration
+                role: 'seller', 
                 
-                // Structured Address Object
                 address: {
                     village: rawData.village,
                     district: rawData.district,
                     state: rawData.state,
                     pincode: rawData.pincode,
-                    // You can add rawData.farmName as street if you want
                 },
 
                 // Farmer Details Object

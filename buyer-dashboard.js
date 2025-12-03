@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- AUTHENTICATION ---
-    // Check if a user is logged in and has the 'buyer' role.
-    // If not, deny access and redirect to the homepage.
+ 
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user || user.role !== 'buyer') {
         showNotification("Access denied. Please login as a buyer.", "error");
@@ -25,13 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // --- GLOBAL STATE ---
-// This variable will hold the details of the crop the user wants to order.
 let currentCropForOrder = null;
-// This variable will hold the master list of all crops fetched from the server.
 let allFetchedCrops = [];
-// Flag to track if crops have already been loaded
 let cropsAlreadyLoaded = false;
-// This variable will hold the ID of the farmer whose crops are currently being filtered.
 let currentFarmerFilterId = null;
 
 
@@ -39,8 +33,8 @@ let currentFarmerFilterId = null;
 
 /**
  * Manages the visibility of different sections in the dashboard.
- * @param {string} section - The name of the section to show (e.g., 'browse', 'orders').
- * @param {Event} event - The click event from the navigation button.
+ * @param {string} section 
+ * @param {Event} event 
  */
 function showSection(section, event) {
     if (event) event.preventDefault();
@@ -71,7 +65,6 @@ function showSection(section, event) {
         event.target.classList.add('bg-[#2d5016]', 'text-white');
     }
 
-    // Load data for the selected section. This is efficient as data is only fetched when needed.
     switch (section) {
         case 'browse':
             loadCrops();
@@ -108,14 +101,6 @@ async function loadCrops() {
 
         const crops = await response.json();
 
-        // The backend now populates the farmer details, so we can simplify this.
-        // The `populate` in cropRoutes.js handles sending the farmer object with the name.
-        // Example: .populate({path: 'farmer', select: 'name phone'});
-        // This ensures crop.farmer is an object like { _id: '...', name: '...', phone: '...' }
-        //
-        // The previous complex logic to re-fetch farmers is no longer needed if the backend is correct.
-        // We will trust the backend's populated data.
-        // Let's add a console log to verify the data structure from the API.
         console.log("Crops received from API:", crops);
 
         allFetchedCrops = crops; // Store in the master list
@@ -215,9 +200,7 @@ function renderCrops(cropsToRender) {
     });
 }
 
-/**
- * Fetches and displays the buyer's order history.
- */
+
 async function loadOrders() {
     try {
         const user = JSON.parse(localStorage.getItem('user'));
@@ -263,9 +246,6 @@ async function loadOrders() {
     }
 }
 
-/**
- * Fetches and displays a list of all registered farmers.
- */
 async function loadFarmers() {
     try {
         const response = await fetch('http://localhost:5000/api/users');
@@ -350,11 +330,7 @@ async function loadBuyerStats() {
     }
 }
 
-// --- INTERACTIVITY & EVENT HANDLERS ---
 
-/**
- * Sets up event listeners for the crop filtering controls.
- */
 function initializeFilters() {
     document.getElementById('searchInput').addEventListener('input', filterCrops);
     document.getElementById('cropFilter').addEventListener('change', filterCrops);

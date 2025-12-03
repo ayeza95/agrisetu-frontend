@@ -1,6 +1,5 @@
 // admin-dashboard.js
 
-// Global Cache to store fetched users so we can access them in modals without passing huge JSON strings
 let cachedUsers = [];
 let cachedCrops = [];
 
@@ -85,8 +84,6 @@ function showNotification(message, type = 'error') {
     setTimeout(() => notification.remove(), 4000);
 }
 
-// --- DATA LOADING FUNCTIONS ---
-
 // 1. Stats
 async function loadAdminStats() {
     try {
@@ -159,9 +156,9 @@ async function loadAllFarmers() {
                 </td>
                 <td class="py-3 px-4">
                     <div class="flex gap-2 items-center">
-                        <button onclick="verifyFarmer('${farmer._id}')" class="text-blue-600 hover:text-blue-800 p-1" title="Verify" ${farmer.isVerified ? 'disabled' : ''}>
+                        <!-- <button onclick="verifyFarmer('${farmer._id}')" class="text-blue-600 hover:text-blue-800 p-1" title="Verify" ${farmer.isVerified ? 'disabled' : ''}>
                             <i class="fas fa-check-circle"></i>
-                        </button>
+                        </button> -->
                         <button onclick="viewFarmerDetails('${farmer._id}')" class="text-green-600 hover:text-green-800 p-1" title="Docs">
                             <i class="fas fa-file-alt"></i>
                         </button>
@@ -210,9 +207,9 @@ async function loadAllCrops() {
                 </td>
                 <td class="py-3 px-4">
                     <div class="flex gap-2">
-                        <button onclick="updateCropStatus('${crop._id}', 'available')" class="text-blue-600" title="Approve" ${crop.status === 'available' ? 'disabled' : ''}>
+                        <!--<button onclick="updateCropStatus('${crop._id}', 'available')" class="text-blue-600" title="Approve" ${crop.status === 'available' ? 'disabled' : ''}>
                             <i class="fas fa-check"></i>
-                        </button>
+                        </button>-->
                         <button onclick="deleteCrop('${crop._id}')" class="text-red-600" title="Delete">
                             <i class="fas fa-times"></i>
                         </button>

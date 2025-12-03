@@ -3,9 +3,6 @@
 // Global state to hold the master list of all crops fetched from the server.
 let allFetchedCrops = [];
 
-/**
- * Fetches all available crops from the backend and displays them.
- */
 async function loadCrops() {
     console.log("✅ loadCrops() called");
     try {
